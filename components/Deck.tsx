@@ -1,5 +1,5 @@
-import React from "react";
-import { View } from "react-native";
+import React, { useRef } from "react";
+import { View, PanResponder } from "react-native";
 
 type DataDummy = {
   id: number;
@@ -9,9 +9,15 @@ type DataDummy = {
 
 type Props = {
   data: DataDummy[];
-  renderCard: (item: DataDummy) => void;
+  renderCard: (item: DataDummy) => React.ReactNode;
 };
 
-export const Deck = ({}: Props) => {
-  return <View />;
+export const Deck = ({ renderCard, data }: Props) => {
+  const panResponder = useRef(PanResponder.create({})).current;
+
+  const renderCards = () => {
+    return data.map((item) => renderCard(item));
+  };
+
+  return <View>{renderCards()}</View>;
 };
